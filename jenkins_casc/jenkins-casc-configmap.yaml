@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-casc-config
+  namespace: jenkins
+  labels:
+    service_name: jenkins
+    service_group: tools
+data:
+  jenkins.yaml: |-
+    jenkins:
+      systemMessage: |
+        This Jenkins is 100% configured and managed 'as code'.
+        Config is now mostly handled by the 'Jenkins Configuration as Code' (JCasC) plugin.
+        JCasC config can be found in the jenkins.yaml file in the $JENKINS_HOME/casc_configs/ folder.
+        
+        Please only do a changes in JCasC config.
+      agentProtocols:
+      - "JNLP4-connect"
+      - "Ping"
+      authorizationStrategy:
+        loggedInUsersCanDoAnything:
+          allowAnonymousRead: false
+      clouds:
+      - kubernetes:
+          containerCapStr: "10"
+          jenkinsTunnel: "jenkins-agent-svc.jenkins:50000"
+          jenkinsUrl: "http://jenkins-master-svc.jenkins:8080"
+          maxRequestsPerHostStr: "32"
+          name: "kubernetes"
+          namespace: "jenkins"
+          serverUrl: "<KUBERNETES URL>"
+      crumbIssuer:
+        standard:
+          excludeClientIPFromCrumb: true
+      disableRememberMe: false
+      labelString: "master"
+      markupFormatter: "plainText"
+      mode: NORMAL
+      myViewsTabBar: "standard"
+      numExecutors: 5
+      primaryView:
+        all:
+          name: "all"
+      projectNamingStrategy: "standard"
+      quietPeriod: 5
+      remotingSecurity:
+        enabled: false
+      scmCheckoutRetryCount: 0
+      securityRealm:
+        googleOAuth2:
+          clientId: "${google-oauth2-clientId}"
+          clientSecret: "${google-oauth2-clientSecret}"
+          domain: "<YOUR EMAIL DOMAIN>"
+      slaveAgentPort: 50000
+      updateCenter:
+        sites:
+        - id: "default"
+          url: "https://updates.jenkins.io/update-center.json"
+      views:
+      - all:
+          name: "all"
+      viewsTabBar: "standard"
+    security:
+      apiToken:
+        creationOfLegacyTokenEnabled: false
+        tokenGenerationOnCreationEnabled: false
+        usageStatisticsEnabled: true
+      globalJobDslSecurityConfiguration:
+        useScriptSecurity: false
+      sSHD:
+        port: -1
+    unclassified:
+      location:
+        adminAddress: "<YOUR EMAIL>"
+        url: "<YOUR DOMAIN>"
+    jobs:
+      - script: > 
+          pipelineJob('JOB-SEED') {
+            definition {
+              cpsScm {
+                scm {
+                  git {
+                    remote {
+                      url('https://github.com/sidiqputra/job-dsl-gradle-example.git')
+                    }
+                      branch('*/master')
+                  }
+                }
+                lightweight()
+              }
+            }
+          }

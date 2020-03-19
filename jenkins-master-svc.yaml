@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-master-svc
+  namespace: jenkins
+  labels:
+    service_name: jenkins
+    service_group: tools
+spec:
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+      
+  selector:
+    service_name: jenkins
+  type: NodePort
