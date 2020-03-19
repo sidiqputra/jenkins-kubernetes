@@ -60,9 +60,9 @@ sh cleanup.sh
 
 ## Authors
 
-* **sidiqputra** - *Initial work* - [sidiqputra](https://github.com/sidiqputra)
+* **sidiqputra** - [sidiqputra](https://github.com/sidiqputra)
 
-#REFERENCE
+## REFERENCE
 
 [Jenkins Configuration As Code](https://github.com/jenkinsci/configuration-as-code-plugin)
 [Helm](https://helm.sh/docs/topics/charts/)
