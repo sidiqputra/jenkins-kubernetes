@@ -64,6 +64,6 @@ sh cleanup.sh
 
 ## REFERENCE
 
-[Jenkins Configuration As Code](https://github.com/jenkinsci/configuration-as-code-plugin)
-[Helm](https://helm.sh/docs/topics/charts/)
+* [Jenkins Configuration As Code](https://github.com/jenkinsci/configuration-as-code-plugin)
+* [Helm](https://helm.sh/docs/topics/charts/)
 
